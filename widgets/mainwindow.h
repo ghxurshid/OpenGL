@@ -15,10 +15,17 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void timeOut();
+
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();
+
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
     void initShaders();
     void initCube(float width);
@@ -30,6 +37,11 @@ private:
 
     QOpenGLBuffer m_arrayBuffer;
     QOpenGLBuffer m_indexBuffer;
+
+    int rotation = 0;
+    int angleX = 0;
+    int angleY = 0;
+    QPoint lastPos;
 };
 
 #endif // MAINWINDOW_H

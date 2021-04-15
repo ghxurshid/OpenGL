@@ -1,7 +1,7 @@
 attribute highp vec4 qt_Vertex;
-attribute highp vec2 qt_MultiTexCoord0; //4 edi
+attribute highp vec4 qt_MultiTexCoord0; //4 edi
 uniform highp mat4 qt_ModelViewProjectionMatrix;
-varying highp vec2 qt_TexCoord0; //4 edi
+varying highp vec4 qt_TexCoord0; //4 edi
 
 void main(void)
 {

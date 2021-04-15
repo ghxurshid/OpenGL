@@ -24,12 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+INCLUDEPATH += widgets
+
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        widgets/mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        widgets/mainwindow.h
 
 LIBS += -lopengl32
 
@@ -41,5 +43,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 RESOURCES += \
-    shaders.qrc \
-    textures.qrc
+    shaders/shaders.qrc \
+    resources/textures.qrc
