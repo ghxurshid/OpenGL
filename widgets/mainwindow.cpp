@@ -138,10 +138,17 @@ void MainWindow::initSphera(float width)
     QVector<VertexData> vertexes;
     QVector<GLuint> indexes;
 
-//    vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2), QVector2D(0.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2,  width_div_2), QVector2D(0.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2,  width_div_2), QVector2D(1.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2,  width_div_2), QVector2D(1.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
+    float width_div_2 = width / 2.0f;
+
+//    vertexes.append(VertexData(QVector3D(0.5, 0, 0), QVector2D(0.5, 0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0.0, 0.5, 0), QVector2D(0.0, 0.5), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0.0, 0.86f, 0), QVector2D(0.0, 0.86f), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0.86f, 0, 0), QVector2D(0.86f, 0.0), QVector3D(0.0, 0.0, 1.0)));
+
+//    vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2*0), QVector2D(0.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2,  width_div_2*0), QVector2D(0.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2,  width_div_2*0), QVector2D(1.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2,  width_div_2*0), QVector2D(1.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
 
 //    if (1)
 //    {
@@ -172,21 +179,49 @@ void MainWindow::initSphera(float width)
 //    }
 
 
-//    QVector<GLuint> indexes;
 //    for (int i = 0; i < vertexes.size(); i += 4) {
 //        indexes.append(i + 0);
+//        indexes.append(i + 1);
 //        indexes.append(i + 2);
 //        indexes.append(i + 3);
-//        indexes.append(i + 1);
 //    }
 
-    for (int lat = 0; lat <= 90; lat += 15) {
-        for (int lon = 0; lon <= 90; lon += 15) {
-            auto verCoord = calcPoint(lon, lat);
-            auto texCoord = QVector2D(verCoord.x(), verCoord.y());
-            auto vertData = VertexData(verCoord, texCoord, QVector3D(0.0, 0.0, 1.0));
-            vertexes.append(vertData);
+    int lonStep = 90;
+    int latStep = 30;
+
+    for (int lat = -90; lat < 0; lat += latStep) {
+        for (int lon = 0; lon < 360; lon += lonStep) {
+            lat = -60;
+            auto verCoord1 = calcPoint(lon, lat);
+            auto texCoord1 = QVector2D(verCoord1.x(), verCoord1.y());
+            auto vertData1 = VertexData(verCoord1, texCoord1, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData1);
+            qDebug() << verCoord1 << "|" << texCoord1;
+
+            auto verCoord2 = calcPoint(lon + lonStep, lat);
+            auto texCoord2 = QVector2D(verCoord2.x(), verCoord2.y());
+            auto vertData2 = VertexData(verCoord2, texCoord2, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData2);
+            qDebug() << verCoord2 << "|" << texCoord2;
+
+            auto verCoord3 = calcPoint(lon + lonStep, lat + latStep);
+            auto texCoord3 = QVector2D(verCoord3.x(), verCoord3.y());
+            auto vertData3 = VertexData(verCoord3, texCoord3, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData3);
+            qDebug() << verCoord3 << "|" << texCoord3;
+
+            auto verCoord4 = calcPoint(lon, lat + latStep);
+            auto texCoord4 = QVector2D(verCoord4.x(), verCoord4.y());
+            auto vertData4 = VertexData(verCoord4, texCoord4, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData4);
+            qDebug() << verCoord4 << "|" << texCoord4;
+            break;
         }
+        break;
+    }
+
+    for (int i = 0; i < indexes.size(); i ++) {
+        indexes.push_back(i);
     }
 
     m_arrayBuffer.create();
@@ -212,7 +247,7 @@ static double g2rad(int angle)
 QVector3D MainWindow::calcPoint(int longitude, int latidude)
 {
     double latCoeff = cos(g2rad(latidude));
-    double z = sin(g2rad(latidude));
+    double z = sin(g2rad(latidude))*0;
     double x = latCoeff * cos(g2rad(longitude));
     double y = latCoeff * sin(g2rad(longitude));
 
