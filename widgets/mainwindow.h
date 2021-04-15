@@ -28,7 +28,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
     void initShaders();
-    void initCube(float width);
+    void initSphera(float width);
 
 private:
     QMatrix4x4 m_projectionMatrix;
@@ -42,6 +42,8 @@ private:
     int angleX = 0;
     int angleY = 0;
     QPoint lastPos;
+
+    QVector3D calcPoint(int longitude, int latidude);
 };
 
 #endif // MAINWINDOW_H
