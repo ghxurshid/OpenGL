@@ -20,18 +20,9 @@ struct VertexData
 };
 
 MainWindow::MainWindow(QWidget *parent)
-    : QOpenGLWidget (parent), m_texture(0), m_indexBuffer(QOpenGLBuffer::IndexBuffer)
+    : QOpenGLWidget (parent), m_texture(nullptr), m_indexBuffer(QOpenGLBuffer::IndexBuffer)
 {
-//    QTimer * timer = new QTimer();
-//    connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
-//    connect(this, &MainWindow::destroyed, timer, &QTimer::deleteLater);
-//    timer->start(10);
 
-//    for (int lat = 0; lat <= 90; lat += 15) {
-//        for (int lon = 0; lon <= 90; lon += 15) {
-//            qDebug() << calcPoint(lon, lat, 10);
-//        }
-//    }
 }
 
 MainWindow::~MainWindow()
@@ -41,8 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::timeOut()
 {
-//    rotation = (++ rotation) % 360;
-//    update();
+
 }
 
 void MainWindow::initializeGL()
@@ -58,7 +48,7 @@ void MainWindow::initializeGL()
 
 void MainWindow::resizeGL(int w, int h)
 {
-    float aspect = w / (h ? (float)h : 1);
+    float aspect = w / (h ? static_cast<float>(h) : 1);
 
     m_projectionMatrix.setToIdentity();
     m_projectionMatrix.perspective(55, aspect, 0.1f, 10.0f);
@@ -71,7 +61,7 @@ void MainWindow::paintGL()
 
     QMatrix4x4 modelViewMatrix;
     modelViewMatrix.setToIdentity();
-    modelViewMatrix.translate(0.0, 0.0, 0.0);
+    modelViewMatrix.translate(0.0, 0.0, -4.5);
     modelViewMatrix.rotate(angleX, 1.0, 0.0, 0.0);
     modelViewMatrix.rotate(angleY, 0.0, 1.0, 0.0);
 
@@ -97,7 +87,7 @@ void MainWindow::paintGL()
 
     m_indexBuffer.bind();
 
-    glDrawElements(GL_QUADS, m_indexBuffer.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_QUADS, m_indexBuffer.size(), GL_UNSIGNED_INT, nullptr);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -123,10 +113,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
 void MainWindow::initShaders()
 {
-    if (!m_program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.vsh"));
+    if (!m_program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.vsh"))
         close();
 
-    if (!m_program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fshader.fsh"));
+    if (!m_program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fshader.fsh"))
         close();
 
     if (!m_program.link())
@@ -138,56 +128,8 @@ void MainWindow::initSphera(float width)
     QVector<VertexData> vertexes;
     QVector<GLuint> indexes;
 
-    float width_div_2 = width / 2.0f;
-
-//    vertexes.append(VertexData(QVector3D(1, 0, 0), QVector2D(1, 0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0, 1, 0), QVector2D(0, 1), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0, 0.86, 0), QVector2D(0, 0.86f), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0.86, 0, 0), QVector2D(0.86f, 0), QVector3D(0.0, 0.0, 1.0)));
-
-//    vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2*0), QVector2D(0.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2,  width_div_2*0), QVector2D(0.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2,  width_div_2*0), QVector2D(1.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2,  width_div_2*0), QVector2D(1.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
-
-//    if (1)
-//    {
-//        vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2,  width_div_2), QVector2D(0.0, 1.0), QVector3D(1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2,  width_div_2), QVector2D(0.0, 0.0), QVector3D(1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2, -width_div_2), QVector2D(1.0, 1.0), QVector3D(1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2, -width_div_2), QVector2D(1.0, 0.0), QVector3D(1.0, 0.0, 0.0)));
-
-//        vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2,  width_div_2), QVector2D(0.0, 1.0), QVector3D(0.0, 1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2, -width_div_2), QVector2D(0.0, 0.0), QVector3D(0.0, 1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2), QVector2D(1.0, 1.0), QVector3D(0.0, 1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2, -width_div_2), QVector2D(1.0, 0.0), QVector3D(0.0, 1.0, 0.0)));
-
-//        vertexes.append(VertexData(QVector3D( width_div_2,  width_div_2, -width_div_2), QVector2D(0.0, 1.0), QVector3D(0.0, 0.0, -1.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2, -width_div_2, -width_div_2), QVector2D(0.0, 0.0), QVector3D(0.0, 0.0, -1.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2, -width_div_2), QVector2D(1.0, 1.0), QVector3D(0.0, 0.0, -1.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2, -width_div_2), QVector2D(1.0, 0.0), QVector3D(0.0, 0.0, -1.0)));
-
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2), QVector2D(0.0, 1.0), QVector3D(-1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2, -width_div_2), QVector2D(0.0, 0.0), QVector3D(-1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2,  width_div_2), QVector2D(1.0, 1.0), QVector3D(-1.0, 0.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2, -width_div_2), QVector2D(1.0, 0.0), QVector3D(-1.0, 0.0, 0.0)));
-
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  -width_div_2,  width_div_2), QVector2D(0.0, 1.0), QVector3D(0.0, -1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D(-width_div_2,  -width_div_2, -width_div_2), QVector2D(0.0, 0.0), QVector3D(0.0, -1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2,  -width_div_2,  width_div_2), QVector2D(1.0, 1.0), QVector3D(0.0, -1.0, 0.0)));
-//        vertexes.append(VertexData(QVector3D( width_div_2,  -width_div_2, -width_div_2), QVector2D(1.0, 0.0), QVector3D(0.0, -1.0, 0.0)));
-//    }
-
-
-//    for (int i = 0; i < vertexes.size(); i += 4) {
-//        indexes.append(i + 0);
-//        indexes.append(i + 1);
-//        indexes.append(i + 2);
-//        indexes.append(i + 3);
-//    }
-
-    int lonStep = 30;
-    int latStep = 30;
+    int lonStep = 1;
+    int latStep = 1;
 
     for (int lat = -90; lat < 0; lat += latStep) {
         for (int lon = 0; lon < 360; lon += lonStep) {
@@ -215,17 +157,17 @@ void MainWindow::initSphera(float width)
     }
 
     for (int i = 0; i < vertexes.size(); i ++) {
-        indexes.push_back(i);
+        indexes.push_back(static_cast<uint>(i));
     }
 
     m_arrayBuffer.create();
     m_arrayBuffer.bind();
-    m_arrayBuffer.allocate(vertexes.constData(), vertexes.size() * sizeof (VertexData));
+    m_arrayBuffer.allocate(vertexes.constData(), static_cast<int>(vertexes.size()) * static_cast<int>(sizeof (VertexData)));
     m_arrayBuffer.release();
 
     m_indexBuffer.create();
     m_indexBuffer.bind();
-    m_indexBuffer.allocate(indexes.constData(), indexes.size() * sizeof (GLuint));
+    m_indexBuffer.allocate(indexes.constData(), static_cast<int>(indexes.size()) * static_cast<int>(sizeof (GLuint)));
     m_indexBuffer.release();
 
     m_texture = new QOpenGLTexture(QImage(":/fisheye.png").mirrored());
@@ -240,14 +182,10 @@ static double g2rad(int angle)
 }
 QVector3D MainWindow::calcPoint(int longitude, int latidude)
 {
-    //float latCoeff = cos(g2rad(latidude));
-    float z = sin(g2rad(latidude));
-    float x = cos(g2rad(latidude)) * cos(g2rad(longitude));
-    float y = cos(g2rad(latidude)) * sin(g2rad(longitude));
+    double latCoeff = cos(g2rad(latidude));
+    double z = sin(g2rad(latidude));
+    double x = latCoeff * cos(g2rad(longitude));
+    double y = latCoeff * sin(g2rad(longitude));
 
-    x = std::floor(x * 100) / 100.0f;
-    y = std::floor(y * 100) / 100.0f;
-    z = std::floor(z * 100) / 100.0f;
-
-    return QVector3D(x, y, z);
+    return QVector3D(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
