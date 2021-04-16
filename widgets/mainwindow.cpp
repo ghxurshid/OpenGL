@@ -60,9 +60,9 @@ void MainWindow::paintGL()
 
     QMatrix4x4 modelViewMatrix;
     modelViewMatrix.setToIdentity();
-    modelViewMatrix.translate(0.0, 0.0, 100.0);
+    modelViewMatrix.translate(pos);
     modelViewMatrix.rotate(angleX, 1.0, 0.0, 0.0);
-    modelViewMatrix.rotate(angleY, 0.0, 0.0, 1.0);
+    modelViewMatrix.rotate(angleZ, 0.0, 0.0, 1.0);
 
     m_texture->bind(0);
 
@@ -105,8 +105,32 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     QOpenGLWidget::mouseMoveEvent(event);
     auto pos = event->pos();
     angleX -= (pos.y() - lastPos.y()) / 2.0f;
-    angleY -= (pos.x() - lastPos.x()) / 2.0f;
+    angleZ -= (pos.x() - lastPos.x()) / 2.0f;
     lastPos = pos;
+    update();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    double speed = 5.0;
+
+    QVector3D dPos(speed * std::cos(angleZ * M_PI / 180) * std::sin(angleX * M_PI / 180),
+                   speed * std::sin(angleZ * M_PI / 180) * std::sin(angleX * M_PI / 180),
+                   speed * std::cos(angleX * M_PI / 180));
+
+    if (event->key() == Qt::Key_W) {
+        pos -= QVector3D(0, 5, 0);
+    } else if (event->key() == Qt::Key_S) {
+        pos += QVector3D(0, 5, 0);
+    } else if (event->key() == Qt::Key_A) {
+        pos += QVector3D(5, 0, 0);
+    } else if (event->key() == Qt::Key_D) {
+        pos -= QVector3D(5, 0, 0);
+    } else if (event->key() == Qt::Key_Q) {
+        pos -= QVector3D(0, 0, 5);
+    } else if (event->key() == Qt::Key_E) {
+        pos += QVector3D(0, 0, 5);
+    }
     update();
 }
 
