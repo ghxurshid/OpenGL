@@ -28,7 +28,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
     void initShaders();
-    void initSphera(float width);
+    void initSphera(float radius);
 
 private:
     QMatrix4x4 m_projectionMatrix;

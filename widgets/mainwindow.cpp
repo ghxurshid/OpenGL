@@ -10,13 +10,12 @@ using namespace std;
 struct VertexData
 {
     VertexData() {}
-    VertexData(QVector3D p, QVector2D t, QVector3D n) :
-        position(p), texCoord(t), normal(n)
+    VertexData(QVector3D p, QVector2D t) :
+        position(p), texCoord(t)
     {
     }
     QVector3D position;
-    QVector2D texCoord;
-    QVector3D normal;   
+    QVector2D texCoord; 
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -43,7 +42,7 @@ void MainWindow::initializeGL()
     //glEnable(GL_CULL_FACE);
 
     initShaders();
-    initSphera(4.0f);
+    initSphera(200.0f);
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -51,7 +50,7 @@ void MainWindow::resizeGL(int w, int h)
     float aspect = w / (h ? static_cast<float>(h) : 1);
 
     m_projectionMatrix.setToIdentity();
-    m_projectionMatrix.perspective(55, aspect, 0.1f, 10.0f);
+    m_projectionMatrix.perspective(90, aspect, 5.0f, 500.0f);
 
 }
 
@@ -61,9 +60,9 @@ void MainWindow::paintGL()
 
     QMatrix4x4 modelViewMatrix;
     modelViewMatrix.setToIdentity();
-    modelViewMatrix.translate(0.0, 0.0, -4.5);
+    modelViewMatrix.translate(0.0, 0.0, 100.0);
     modelViewMatrix.rotate(angleX, 1.0, 0.0, 0.0);
-    modelViewMatrix.rotate(angleY, 0.0, 1.0, 0.0);
+    modelViewMatrix.rotate(angleY, 0.0, 0.0, 1.0);
 
     m_texture->bind(0);
 
@@ -105,8 +104,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     QOpenGLWidget::mouseMoveEvent(event);
     auto pos = event->pos();
-    angleX += (pos.y() - lastPos.y()) / 2.0f;
-    angleY += (pos.x() - lastPos.x()) / 2.0f;
+    angleX -= (pos.y() - lastPos.y()) / 2.0f;
+    angleY -= (pos.x() - lastPos.x()) / 2.0f;
     lastPos = pos;
     update();
 }
@@ -123,7 +122,7 @@ void MainWindow::initShaders()
         close();
 }
 
-void MainWindow::initSphera(float width)
+void MainWindow::initSphera(float radius)
 {
     QVector<VertexData> vertexes;
     QVector<GLuint> indexes;
@@ -131,27 +130,27 @@ void MainWindow::initSphera(float width)
     int lonStep = 1;
     int latStep = 1;
 
-    for (int lat = -90; lat < 0; lat += latStep) {
+    for (int lat = -90; lat < -20; lat += latStep) {
         for (int lon = 0; lon < 360; lon += lonStep) {
             auto verCoord1 = calcPoint(lon, lat);
             auto texCoord1 = QVector2D((verCoord1.x() + 1) / 2.0f, (verCoord1.y() + 1) / 2.0f);
-            auto vertData1 = VertexData(verCoord1 * width, texCoord1, QVector3D(0.0, 0.0, 1.0));
+            auto vertData1 = VertexData(verCoord1 * radius, texCoord1);
             vertexes.append(vertData1);            
 
             auto verCoord2 = calcPoint(lon + lonStep, lat);
             auto texCoord2 = QVector2D((verCoord2.x() + 1) / 2.0f, (verCoord2.y() + 1) / 2.0f);
-            auto vertData2 = VertexData(verCoord2 * width, texCoord2, QVector3D(0.0, 0.0, 1.0));
+            auto vertData2 = VertexData(verCoord2 * radius, texCoord2);
             vertexes.append(vertData2);
 
 
             auto verCoord3 = calcPoint(lon + lonStep, lat + latStep);
             auto texCoord3 = QVector2D((verCoord3.x() + 1) / 2.0f, (verCoord3.y() + 1) / 2.0f);
-            auto vertData3 = VertexData(verCoord3 * width, texCoord3, QVector3D(0.0, 0.0, 1.0));
+            auto vertData3 = VertexData(verCoord3 * radius, texCoord3);
             vertexes.append(vertData3);            
 
             auto verCoord4 = calcPoint(lon, lat + latStep);
             auto texCoord4 = QVector2D((verCoord4.x() + 1) / 2.0f, (verCoord4.y() + 1) / 2.0f);
-            auto vertData4 = VertexData(verCoord4 * width, texCoord4, QVector3D(0.0, 0.0, 1.0));
+            auto vertData4 = VertexData(verCoord4 * radius, texCoord4);
             vertexes.append(vertData4);                       
         }       
     }
