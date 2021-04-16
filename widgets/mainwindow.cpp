@@ -53,7 +53,7 @@ void MainWindow::initializeGL()
     //glEnable(GL_CULL_FACE);
 
     initShaders();
-    initSphera(2.0f);
+    initSphera(4.0f);
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -61,7 +61,7 @@ void MainWindow::resizeGL(int w, int h)
     float aspect = w / (h ? (float)h : 1);
 
     m_projectionMatrix.setToIdentity();
-    m_projectionMatrix.perspective(120, aspect, 0.1f, 110.0f);
+    m_projectionMatrix.perspective(55, aspect, 0.1f, 10.0f);
 
 }
 
@@ -71,7 +71,7 @@ void MainWindow::paintGL()
 
     QMatrix4x4 modelViewMatrix;
     modelViewMatrix.setToIdentity();
-    modelViewMatrix.translate(0.0, 0.0, -5.0);
+    modelViewMatrix.translate(0.0, 0.0, 0.0);
     modelViewMatrix.rotate(angleX, 1.0, 0.0, 0.0);
     modelViewMatrix.rotate(angleY, 0.0, 1.0, 0.0);
 
@@ -140,10 +140,10 @@ void MainWindow::initSphera(float width)
 
     float width_div_2 = width / 2.0f;
 
-//    vertexes.append(VertexData(QVector3D(0.5, 0, 0), QVector2D(0.5, 0), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0.0, 0.5, 0), QVector2D(0.0, 0.5), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0.0, 0.86f, 0), QVector2D(0.0, 0.86f), QVector3D(0.0, 0.0, 1.0)));
-//    vertexes.append(VertexData(QVector3D(0.86f, 0, 0), QVector2D(0.86f, 0.0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(1, 0, 0), QVector2D(1, 0), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0, 1, 0), QVector2D(0, 1), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0, 0.86, 0), QVector2D(0, 0.86f), QVector3D(0.0, 0.0, 1.0)));
+//    vertexes.append(VertexData(QVector3D(0.86, 0, 0), QVector2D(0.86f, 0), QVector3D(0.0, 0.0, 1.0)));
 
 //    vertexes.append(VertexData(QVector3D(-width_div_2,  width_div_2,  width_div_2*0), QVector2D(0.0, 1.0), QVector3D(0.0, 0.0, 1.0)));
 //    vertexes.append(VertexData(QVector3D(-width_div_2, -width_div_2,  width_div_2*0), QVector2D(0.0, 0.0), QVector3D(0.0, 0.0, 1.0)));
@@ -186,41 +186,35 @@ void MainWindow::initSphera(float width)
 //        indexes.append(i + 3);
 //    }
 
-    int lonStep = 90;
+    int lonStep = 30;
     int latStep = 30;
 
     for (int lat = -90; lat < 0; lat += latStep) {
         for (int lon = 0; lon < 360; lon += lonStep) {
-            lat = -60;
             auto verCoord1 = calcPoint(lon, lat);
-            auto texCoord1 = QVector2D(verCoord1.x(), verCoord1.y());
-            auto vertData1 = VertexData(verCoord1, texCoord1, QVector3D(0.0, 0.0, 1.0));
-            vertexes.append(vertData1);
-            qDebug() << verCoord1 << "|" << texCoord1;
+            auto texCoord1 = QVector2D((verCoord1.x() + 1) / 2.0f, (verCoord1.y() + 1) / 2.0f);
+            auto vertData1 = VertexData(verCoord1 * width, texCoord1, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData1);            
 
             auto verCoord2 = calcPoint(lon + lonStep, lat);
-            auto texCoord2 = QVector2D(verCoord2.x(), verCoord2.y());
-            auto vertData2 = VertexData(verCoord2, texCoord2, QVector3D(0.0, 0.0, 1.0));
+            auto texCoord2 = QVector2D((verCoord2.x() + 1) / 2.0f, (verCoord2.y() + 1) / 2.0f);
+            auto vertData2 = VertexData(verCoord2 * width, texCoord2, QVector3D(0.0, 0.0, 1.0));
             vertexes.append(vertData2);
-            qDebug() << verCoord2 << "|" << texCoord2;
+
 
             auto verCoord3 = calcPoint(lon + lonStep, lat + latStep);
-            auto texCoord3 = QVector2D(verCoord3.x(), verCoord3.y());
-            auto vertData3 = VertexData(verCoord3, texCoord3, QVector3D(0.0, 0.0, 1.0));
-            vertexes.append(vertData3);
-            qDebug() << verCoord3 << "|" << texCoord3;
+            auto texCoord3 = QVector2D((verCoord3.x() + 1) / 2.0f, (verCoord3.y() + 1) / 2.0f);
+            auto vertData3 = VertexData(verCoord3 * width, texCoord3, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData3);            
 
             auto verCoord4 = calcPoint(lon, lat + latStep);
-            auto texCoord4 = QVector2D(verCoord4.x(), verCoord4.y());
-            auto vertData4 = VertexData(verCoord4, texCoord4, QVector3D(0.0, 0.0, 1.0));
-            vertexes.append(vertData4);
-            qDebug() << verCoord4 << "|" << texCoord4;
-            break;
-        }
-        break;
+            auto texCoord4 = QVector2D((verCoord4.x() + 1) / 2.0f, (verCoord4.y() + 1) / 2.0f);
+            auto vertData4 = VertexData(verCoord4 * width, texCoord4, QVector3D(0.0, 0.0, 1.0));
+            vertexes.append(vertData4);                       
+        }       
     }
 
-    for (int i = 0; i < indexes.size(); i ++) {
+    for (int i = 0; i < vertexes.size(); i ++) {
         indexes.push_back(i);
     }
 
@@ -234,7 +228,7 @@ void MainWindow::initSphera(float width)
     m_indexBuffer.allocate(indexes.constData(), indexes.size() * sizeof (GLuint));
     m_indexBuffer.release();
 
-    m_texture = new QOpenGLTexture(QImage(":/cube.png").mirrored());
+    m_texture = new QOpenGLTexture(QImage(":/fisheye.png").mirrored());
     m_texture->setMinificationFilter(QOpenGLTexture::Nearest);
     m_texture->setMagnificationFilter(QOpenGLTexture::Linear);
     m_texture->setWrapMode(QOpenGLTexture::Repeat);
@@ -242,14 +236,18 @@ void MainWindow::initSphera(float width)
 
 static double g2rad(int angle)
 {
-    return static_cast<double>(angle) * M_PI / 180.0;
+    return (angle / 180.0) * M_PI;
 }
 QVector3D MainWindow::calcPoint(int longitude, int latidude)
 {
-    double latCoeff = cos(g2rad(latidude));
-    double z = sin(g2rad(latidude))*0;
-    double x = latCoeff * cos(g2rad(longitude));
-    double y = latCoeff * sin(g2rad(longitude));
+    //float latCoeff = cos(g2rad(latidude));
+    float z = sin(g2rad(latidude));
+    float x = cos(g2rad(latidude)) * cos(g2rad(longitude));
+    float y = cos(g2rad(latidude)) * sin(g2rad(longitude));
+
+    x = std::floor(x * 100) / 100.0f;
+    y = std::floor(y * 100) / 100.0f;
+    z = std::floor(z * 100) / 100.0f;
 
     return QVector3D(x, y, z);
 }
