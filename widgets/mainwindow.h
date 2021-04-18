@@ -7,6 +7,8 @@
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
 
+#include "camera3d.h"
+
 class MainWindow : public QOpenGLWidget
 {
     Q_OBJECT

@@ -1,11 +1,12 @@
 #ifndef SPHERA_H
 #define SPHERA_H
 
+#include "drawableobject.h"
 
-class Sphera : public DrawableObjct
+class Sphera : public DrawableObject
 {
 public:
-    Sphera();
+    Sphera(double radius = 1);
 };
 
 #endif // SPHERA_H

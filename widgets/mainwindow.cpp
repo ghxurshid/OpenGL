@@ -50,7 +50,7 @@ void MainWindow::resizeGL(int w, int h)
     float aspect = w / (h ? static_cast<float>(h) : 1);
 
     m_projectionMatrix.setToIdentity();
-    m_projectionMatrix.perspective(90, aspect, 5.0f, 500.0f);
+    m_projectionMatrix.perspective(90, aspect, 5.0f, 1500.0f);
 
 }
 
@@ -60,9 +60,10 @@ void MainWindow::paintGL()
 
     QMatrix4x4 modelViewMatrix;
     modelViewMatrix.setToIdentity();
-    modelViewMatrix.translate(pos);
+
     modelViewMatrix.rotate(angleX, 1.0, 0.0, 0.0);
     modelViewMatrix.rotate(angleZ, 0.0, 0.0, 1.0);
+    modelViewMatrix.translate(pos);
 
     m_texture->bind(0);
 
