@@ -6,6 +6,8 @@
 #include <QQuaternion>
 #include <QOpenGLBuffer>
 #include <QOpenGLTexture>
+#include <QOpenGLFunctions>
+#include <QOpenGLShaderProgram>
 
 struct VertexData
 {
@@ -22,13 +24,15 @@ class DrawableObject
 {
 public:
     DrawableObject();
-    void draw()
+    void draw(QOpenGLShaderProgram * shader);
+
+    void setPosition(const QVector3D &position);
 
 protected:
-    QVector3D m_position;
-    QQuaternion m_rotation;
+    QVector3D     m_position;
+    QQuaternion   m_rotation;
 
-    QOpenGLTexture * m_texture;
+    QOpenGLTexture *  m_texture;
     QOpenGLBuffer m_arrayBuffer;
     QOpenGLBuffer m_indexBuffer;
 };

@@ -29,13 +29,11 @@ INCLUDEPATH += widgets
 SOURCES += \
         main.cpp \
         widgets/mainwindow.cpp \
-    widgets/camera3d.cpp \
     widgets/drawableobject.cpp \
     widgets/sphera.cpp
 
 HEADERS += \
         widgets/mainwindow.h \
-    widgets/camera3d.h \
     widgets/drawableobject.h \
     widgets/sphera.h
 

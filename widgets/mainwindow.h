@@ -1,13 +1,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "drawableobject.h"
+#include "sphera.h"
+
+#include <QOpenGLBuffer>
 #include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <QMatrix4x4>
+#include <QQuaternion>
+#include <QVector2D>
+#include <QBasicTimer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
-#include <QOpenGLBuffer>
-
-#include "camera3d.h"
 
 class MainWindow : public QOpenGLWidget
 {
@@ -25,31 +30,26 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
 
+    void initShaders();
+    void initTextura();
+    void initSphera(float radius);
+
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
-
     void keyPressEvent(QKeyEvent *event);
-
-    void initShaders();
-    void initSphera(float radius);
 
 private:
     QMatrix4x4 m_projectionMatrix;
     QOpenGLShaderProgram m_program;
-    QOpenGLTexture * m_texture;
-
-    QOpenGLBuffer m_arrayBuffer;
-    QOpenGLBuffer m_indexBuffer;
 
     int rotation = 0;
     int angleX = 0;
     int angleZ = 0;
-    QPoint lastPos;
 
     QVector3D pos;
-
-    QVector3D calcPoint(int longitude, int latidude);
+    QPoint lastPos;
+    QList<Sphera*> drawables;
 };
 
 #endif // MAINWINDOW_H
