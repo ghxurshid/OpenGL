@@ -29,13 +29,15 @@ INCLUDEPATH += widgets
 SOURCES += \
         main.cpp \
         widgets/mainwindow.cpp \
-    widgets/drawableobject.cpp \
-    widgets/sphera.cpp
+        widgets/drawableobject.cpp \
+        widgets/sphera.cpp \
+        widgets/camera3d.cpp
 
 HEADERS += \
         widgets/mainwindow.h \
-    widgets/drawableobject.h \
-    widgets/sphera.h
+        widgets/drawableobject.h \
+        widgets/sphera.h \
+        widgets/camera3d.h
 
 LIBS += -lopengl32
 

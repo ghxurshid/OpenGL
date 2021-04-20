@@ -1,8 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "drawableobject.h"
 #include "sphera.h"
+#include "camera3d.h"
+#include "drawableobject.h"
 
 #include <QOpenGLBuffer>
 #include <QOpenGLWidget>
@@ -49,6 +50,8 @@ private:
 
     QVector3D pos;
     QPoint lastPos;
+
+    Camera3D camera;
     QList<Sphera*> drawables;
 };
 
