@@ -48,12 +48,23 @@ public:
   void setExposure(float e);
   float exposure() const;
 
+  void setFov(float value);
+  void setAspect(float value);
+  void setNearPlane(float value);
+  void setFarPlane(float value);
 private:
-  mutable bool m_dirty;
+
   QVector3D m_translation;
-  QQuaternion m_rotation;
+  QQuaternion m_rotation;  
   mutable QMatrix4x4 m_world;
   mutable QMatrix4x4 m_projection;
+  mutable bool m_dirty;
+
+  float fov = 45.0f;
+  float aspect = 1.0f;
+  float nearPlane = 0.1f;
+  float farPlane = 1500.0f;
+
 
   void clean() const;
 

@@ -32,26 +32,25 @@ void MainWindow::initializeGL()
 
     initShaders();
     glEnable(GL_DEPTH_TEST);
+    camera.translate(0, 0, 80.0);
 
-    int width = 10;
-    for (int x = 0; x < 3; x ++) {
-        for (int y = 0; y < 3; y ++) {
-            for (int z = 0; z < 3; z ++) {
-                drawables.append(new Sphera(0.8f * width, QVector3D(x * width, y * width, z * width)));
-            }
-        }
-    }
+//    int width = 10;
+//    for (int x = 0; x < 3; x ++) {
+//        for (int y = 0; y < 3; y ++) {
+//            for (int z = 0; z < 3; z ++) {
+//                drawables.append(new Sphera(0.8f * width, QVector3D(x * width, y * width, z * width)));
+//            }
+//        }
+//    }
+
+    drawables.append(new Sphera(20.0f, QVector3D(0, 0, 0)));
 }
 
 void MainWindow::resizeGL(int w, int h)
 {
     float aspect = w / (h ? static_cast<float>(h) : 1);
-
-    QMatrix4x4 projMat;
-    projMat.setToIdentity();
-    projMat.perspective(90, aspect, 0.1f, 1500.0f);
-
-    camera.setProjection(projMat);
+    camera.setAspect(aspect);
+    camera.setNearPlane(70);
 }
 
 void MainWindow::paintGL()
@@ -80,11 +79,12 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     QOpenGLWidget::mouseMoveEvent(event);
     auto pos = event->pos();
-    float angle_x = -(pos.y() - lastPos.y()) / 2.0f;
-    float angle_z = -(pos.x() - lastPos.x()) / 2.0f;
+    float diffx = (pos.x() - lastPos.x()) / 2.0f;
+    float diffy = (pos.y() - lastPos.y()) / 2.0f;
 
-    camera.rotate(angle_x, 1.0, 0.0, 0.0);
-    camera.rotate(angle_z, 0.0, 0.0, 1.0);
+    //QVector3D axisy(0.0f, 0.1f, 0.0f);
+    camera.rotate(diffx, 0.0, 0.0, 1.0);
+    camera.rotate(diffy, camera.right());
 
     lastPos = pos;
     update();
@@ -92,8 +92,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    double speed = 5.0;
-
     if (event->key() == Qt::Key_W) {
         camera.translate( camera.forward());
     } else if (event->key() == Qt::Key_S) {
@@ -102,6 +100,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         camera.translate(-camera.right());
     } else if (event->key() == Qt::Key_D) {
         camera.translate( camera.right());
+    } else if (event->key() == Qt::Key_Q) {
+        camera.translate(QVector3D(0.0, 0.0, -1.0));
+    } else if (event->key() == Qt::Key_E) {
+        camera.translate(QVector3D(0.0, 0.0,  1.0));
     }
     update();
 }

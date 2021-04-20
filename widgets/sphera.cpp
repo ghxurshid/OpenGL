@@ -28,25 +28,26 @@ Sphera::Sphera(double radius, QVector3D position)
 
     for (int lat = -90; lat < -20; lat += latStep) {
         for (int lon = 0; lon < 360; lon += lonStep) {
+            double rr = radius;
             auto verCoord1 = calcPoint(lon, lat);
             auto texCoord1 = QVector2D((verCoord1.x() + 1) / 2.0f, (verCoord1.y() + 1) / 2.0f);
-            auto vertData1 = VertexData(verCoord1 * radius + position, texCoord1);
+            auto vertData1 = VertexData(verCoord1 * rr + position, texCoord1);
             vertexes.append(vertData1);
 
             auto verCoord2 = calcPoint(lon + lonStep, lat);
             auto texCoord2 = QVector2D((verCoord2.x() + 1) / 2.0f, (verCoord2.y() + 1) / 2.0f);
-            auto vertData2 = VertexData(verCoord2 * radius + position, texCoord2);
+            auto vertData2 = VertexData(verCoord2 * rr + position, texCoord2);
             vertexes.append(vertData2);
 
 
             auto verCoord3 = calcPoint(lon + lonStep, lat + latStep);
             auto texCoord3 = QVector2D((verCoord3.x() + 1) / 2.0f, (verCoord3.y() + 1) / 2.0f);
-            auto vertData3 = VertexData(verCoord3 * radius + position, texCoord3);
+            auto vertData3 = VertexData(verCoord3 * rr + position, texCoord3);
             vertexes.append(vertData3);
 
             auto verCoord4 = calcPoint(lon, lat + latStep);
             auto texCoord4 = QVector2D((verCoord4.x() + 1) / 2.0f, (verCoord4.y() + 1) / 2.0f);
-            auto vertData4 = VertexData(verCoord4 * radius + position, texCoord4);
+            auto vertData4 = VertexData(verCoord4 * rr + position, texCoord4);
             vertexes.append(vertData4);
         }
     }

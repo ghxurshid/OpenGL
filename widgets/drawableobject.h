@@ -35,6 +35,7 @@ protected:
     QOpenGLTexture *  m_texture;
     QOpenGLBuffer m_arrayBuffer;
     QOpenGLBuffer m_indexBuffer;
+    QOpenGLTexture * m_texture2;
 };
 
 #endif // DRAWABLEOBJECT_H

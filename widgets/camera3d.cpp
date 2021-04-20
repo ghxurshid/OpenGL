@@ -57,7 +57,7 @@ void Camera3D::setProjection(const QMatrix4x4 &proj) const
 const QMatrix4x4 Camera3D::toMatrix()
 {
   clean();
-  return m_world * m_projection;
+  return  m_projection * m_world;
 }
 
 bool Camera3D::dirty() const
@@ -81,15 +81,42 @@ QVector3D Camera3D::right() const
   return m_rotation.rotatedVector(LocalRight);
 }
 
+void Camera3D::setFov(float value)
+{
+    m_dirty = true;
+    fov = value;
+}
+
+void Camera3D::setAspect(float value)
+{
+    m_dirty = true;
+    aspect = value;
+}
+
+void Camera3D::setNearPlane(float value)
+{
+    m_dirty = true;
+    nearPlane = value;
+}
+
+void Camera3D::setFarPlane(float value)
+{
+    m_dirty = true;
+    farPlane = value;
+}
+
 void Camera3D::clean() const
 {
-  if (m_dirty)
-  {
-    m_dirty = false;
-    m_world.setToIdentity();
-    m_world.rotate(m_rotation.conjugated());
-    m_world.translate(-m_translation);
-  }
+    if (m_dirty)
+    {
+        m_dirty = false;
+        m_world.setToIdentity();
+        m_world.rotate(m_rotation.conjugated());
+        m_world.translate(-m_translation);
+
+        m_projection.setToIdentity();
+        m_projection.perspective(fov, aspect, nearPlane, farPlane);
+    }
 }
 
 // Qt Streams
