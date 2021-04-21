@@ -52,6 +52,11 @@ public:
   void setAspect(float value);
   void setNearPlane(float value);
   void setFarPlane(float value);
+  float getFov() const;
+  float getAspect() const;
+  float getNearPlane() const;
+  float getFarPlane() const;
+
 private:
 
   QVector3D m_translation;
@@ -62,7 +67,7 @@ private:
 
   float fov = 45.0f;
   float aspect = 1.0f;
-  float nearPlane = 0.1f;
+  float nearPlane = 10.0f;
   float farPlane = 1500.0f;
 
 

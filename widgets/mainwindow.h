@@ -20,7 +20,7 @@ class MainWindow : public QOpenGLWidget
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 public slots:
@@ -40,19 +40,13 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
-private:
-    QMatrix4x4 m_projectionMatrix;
+private: 
+    Camera3D camera;
+    QVector2D mauseLastPos;
+    QList<Sphera*> drawables;
     QOpenGLShaderProgram m_program;
 
-    int rotation = 0;
-    int angleX = 0;
-    int angleZ = 0;
-
-    QVector3D pos;
-    QPoint lastPos;
-
-    Camera3D camera;
-    QList<Sphera*> drawables;
+    double calcAngle(double start, double end, double h);
 };
 
 #endif // MAINWINDOW_H

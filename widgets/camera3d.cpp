@@ -105,6 +105,26 @@ void Camera3D::setFarPlane(float value)
     farPlane = value;
 }
 
+float Camera3D::getFov() const
+{
+    return fov;
+}
+
+float Camera3D::getAspect() const
+{
+    return aspect;
+}
+
+float Camera3D::getNearPlane() const
+{
+    return nearPlane;
+}
+
+float Camera3D::getFarPlane() const
+{
+    return farPlane;
+}
+
 void Camera3D::clean() const
 {
     if (m_dirty)
@@ -124,7 +144,8 @@ QDebug operator<<(QDebug dbg, const Camera3D &transform)
 {
   dbg << "Camera3D\n{\n";
   dbg << "Position: <" << transform.translation().x() << ", " << transform.translation().y() << ", " << transform.translation().z() << ">\n";
-  dbg << "Rotation: <" << transform.rotation().x() << ", " << transform.rotation().y() << ", " << transform.rotation().z() << " | " << transform.rotation().scalar() << ">\n}";
+  dbg << "Rotation: <" << transform.rotation().x() << ", " << transform.rotation().y() << ", " << transform.rotation().z() << " | " << transform.rotation().scalar() << ">\n";
+  dbg << "Proection: <" << transform.getFov() << ", " << transform.getAspect() << ", " << transform.getNearPlane() << ", " << transform.getFarPlane() << ">\n}";
   return dbg;
 }
 
