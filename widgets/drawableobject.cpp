@@ -41,3 +41,13 @@ void DrawableObject::setPosition(const QVector3D &position)
 {
     m_position = position;
 }
+
+QOpenGLTexture *DrawableObject::texture() const
+{
+    return m_texture;
+}
+
+void DrawableObject::setTexture(QOpenGLTexture *texture)
+{
+    m_texture = texture;
+}

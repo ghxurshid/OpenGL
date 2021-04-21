@@ -23,6 +23,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void changeTexture();
+
 public slots:
     void timeOut();
 

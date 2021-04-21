@@ -28,14 +28,16 @@ public:
 
     void setPosition(const QVector3D &position);
 
+    QOpenGLTexture *texture() const;
+    void setTexture(QOpenGLTexture *texture);
+
 protected:
     QVector3D     m_position;
     QQuaternion   m_rotation;
 
     QOpenGLTexture *  m_texture;
     QOpenGLBuffer m_arrayBuffer;
-    QOpenGLBuffer m_indexBuffer;
-    QOpenGLTexture * m_texture2;
+    QOpenGLBuffer m_indexBuffer; 
 };
 
 #endif // DRAWABLEOBJECT_H

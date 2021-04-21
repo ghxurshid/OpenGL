@@ -3,6 +3,7 @@
 
 #include <math.h>
 
+#include <QTime>
 #include <QTimer>
 #include <QInputEvent>
 #include <QOpenGLFunctions>
@@ -20,6 +21,22 @@ MainWindow::~MainWindow()
 {
     makeCurrent();
     doneCurrent();
+}
+
+void MainWindow::changeTexture()
+{
+    QImage image(":/cube.png");
+    QTime now = QTime::currentTime();
+    for (int i = 0; i < 27; i ++) {
+        auto texture = drawables[i]->texture();
+        texture->destroy();
+        texture->create();
+        texture->setData(image);
+    }
+    QTime after = QTime::currentTime();
+    qDebug() << now.msecsTo(after);
+
+    update();
 }
 
 void MainWindow::timeOut()
@@ -85,7 +102,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
     float angle_z = calcAngle(tStart.x(), tEnd.x(), camera.getNearPlane());
     float angle_x = calcAngle(tStart.y(), tEnd.y(), camera.getNearPlane());
-    qDebug() << "angle_x = " << angle_x << " angle_z = " << angle_z;
+
     angle_z = (pos.x() - mauseLastPos.x()) / 10.0f;
     angle_x = (pos.y() - mauseLastPos.y()) / 10.0f;
 
@@ -117,6 +134,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     } else if (event->key() == Qt::Key_Minus) {
         camera.setFov(camera.getFov() - 1.0f);
         qDebug() << camera;
+    } else if (event->key() == Qt::Key_Space) {
+        changeTexture();
     }
     update();
 }
