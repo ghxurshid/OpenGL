@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,20 +24,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += widgets
+INCLUDEPATH += widgets \
+               media   \
 
 SOURCES += \
         main.cpp \
         widgets/mainwindow.cpp \
         widgets/drawableobject.cpp \
         widgets/sphera.cpp \
-        widgets/camera3d.cpp
+        widgets/camera3d.cpp \
+        media/videosurface.cpp
 
 HEADERS += \
         widgets/mainwindow.h \
         widgets/drawableobject.h \
         widgets/sphera.h \
-        widgets/camera3d.h
+        widgets/camera3d.h \
+        media/videosurface.h
 
 LIBS += -lopengl32
 

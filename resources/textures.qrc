@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>cube.png</file>
         <file>fisheye.png</file>
+        <file>roadster.mp4</file>
     </qresource>
 </RCC>

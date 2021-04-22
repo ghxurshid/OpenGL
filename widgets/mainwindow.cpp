@@ -8,13 +8,14 @@
 #include <QInputEvent>
 #include <QOpenGLFunctions>
 
+
+
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QOpenGLWidget (parent)
 {
-    auto val = calcAngle(-10, 10,10);
-    qDebug() << val;
+
 }
 
 MainWindow::~MainWindow()
@@ -53,13 +54,28 @@ void MainWindow::initializeGL()
     camera.translate(0, 0, 80.0);
 
     int width = 150;
-    for (int x = 0; x < 3; x ++) {
-        for (int y = 0; y < 3; y ++) {
-            for (int z = 0; z < 3; z ++) {
+    for (int x = 0; x < 2; x ++) {
+        for (int y = 0; y < 2; y ++) {
+            for (int z = 0; z < 2; z ++) {
                 drawables.append(new Sphera(0.4f * width, QVector3D(x * width, y * width, z * width)));
             }
         }
     }
+
+    playlist = new QMediaPlaylist;
+    playlist->addMedia(QUrl("D:/WorkPath/QT/OpenGL/resources/roadster.mp4"));
+    playlist->addMedia(QUrl("D:/WorkPath/QT/OpenGL/resources/mask.mp3"));
+    playlist->addMedia(QUrl("D:/WorkPath/QT/OpenGL/resources/mask.mp3"));
+    playlist->setCurrentIndex(0);
+
+    player = new QMediaPlayer;
+    player->setPlaylist(playlist);
+
+    videoWidget = new QVideoWidget;
+    player->setVideoOutput(videoWidget);
+    videoWidget->show();
+
+    player->play();
 }
 
 void MainWindow::resizeGL(int w, int h)

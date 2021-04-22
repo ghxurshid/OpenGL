@@ -3,6 +3,7 @@
 
 #include "sphera.h"
 #include "camera3d.h"
+#include "videosurface.h"
 #include "drawableobject.h"
 
 #include <QOpenGLBuffer>
@@ -14,6 +15,9 @@
 #include <QBasicTimer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+#include <QVideoWidget>
 
 class MainWindow : public QOpenGLWidget
 {
@@ -47,6 +51,11 @@ private:
     QVector2D mauseLastPos;
     QList<Sphera*> drawables;
     QOpenGLShaderProgram m_program;
+
+    QMediaPlayer * player;
+    VideoSurface * surface;
+    QMediaPlaylist * playlist;
+    QVideoWidget * videoWidget;
 
     double calcAngle(double start, double end, double h);
 };
