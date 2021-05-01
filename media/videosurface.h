@@ -12,6 +12,9 @@ public:
             QAbstractVideoBuffer::HandleType type = QAbstractVideoBuffer::NoHandle) const;
 
     virtual bool present(const QVideoFrame &frame);
+
+signals:
+    void newFrame(QImage image);
 };
 
 #endif // VIDEOSURFACE_H

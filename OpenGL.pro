@@ -33,14 +33,16 @@ SOURCES += \
         widgets/drawableobject.cpp \
         widgets/sphera.cpp \
         widgets/camera3d.cpp \
-        media/videosurface.cpp
+        media/videosurface.cpp \
+    widgets/xyzaxis.cpp
 
 HEADERS += \
         widgets/mainwindow.h \
         widgets/drawableobject.h \
         widgets/sphera.h \
         widgets/camera3d.h \
-        media/videosurface.h
+        media/videosurface.h \
+    widgets/xyzaxis.h
 
 LIBS += -lopengl32
 

@@ -67,9 +67,8 @@ private:
 
   float fov = 45.0f;
   float aspect = 1.0f;
-  float nearPlane = 10.0f;
+  float nearPlane = 0.1f;
   float farPlane = 1500.0f;
-
 
   void clean() const;
 

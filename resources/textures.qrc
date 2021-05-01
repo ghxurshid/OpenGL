@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>cube.png</file>
         <file>fisheye.png</file>
+        <file>axis.png</file>
     </qresource>
 </RCC>

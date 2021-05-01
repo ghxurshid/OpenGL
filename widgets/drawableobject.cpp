@@ -1,7 +1,12 @@
 #include "drawableobject.h"
 
-DrawableObject::DrawableObject()
-    :  m_texture(nullptr), m_indexBuffer(QOpenGLBuffer::IndexBuffer)
+DrawableObject::DrawableObject(QQuaternion rotation, QVector3D position, QVector3D scalar)
+    :  m_scalar(scalar), m_position(position), m_rotation(rotation), m_texture(nullptr), m_indexBuffer(QOpenGLBuffer::IndexBuffer)
+{
+
+}
+
+DrawableObject::~DrawableObject()
 {
 
 }
@@ -42,12 +47,22 @@ void DrawableObject::setPosition(const QVector3D &position)
     m_position = position;
 }
 
-QOpenGLTexture *DrawableObject::texture() const
+void DrawableObject::setScalar(const QVector3D &scalar)
 {
-    return m_texture;
+    m_scalar = scalar;
 }
 
-void DrawableObject::setTexture(QOpenGLTexture *texture)
+void DrawableObject::setRotation(const QQuaternion &rotation)
 {
-    m_texture = texture;
+    m_rotation = rotation;
+}
+
+void DrawableObject::setTextureImage(QImage image)
+{
+    if (m_texture)
+    {
+        m_texture->destroy();
+        m_texture->create();
+        m_texture->setData(image);
+    }
 }

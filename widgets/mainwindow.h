@@ -31,6 +31,7 @@ public:
 
 public slots:
     void timeOut();
+    void image
 
 protected:
     void initializeGL();
@@ -46,18 +47,21 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
+    void showEvent(QShowEvent *event);
+
 private: 
     Camera3D camera;
     QVector2D mauseLastPos;
-    QList<Sphera*> drawables;
+    QList<DrawableObject*> drawables;
     QOpenGLShaderProgram m_program;
 
-    QMediaPlayer * player;
-    VideoSurface * surface;
+    QMediaPlayer   * player;
+    VideoSurface   * surface;
     QMediaPlaylist * playlist;
-    QVideoWidget * videoWidget;
+    QVideoWidget   * videoWidget;
 
     double calcAngle(double start, double end, double h);
+
 };
 
 #endif // MAINWINDOW_H
